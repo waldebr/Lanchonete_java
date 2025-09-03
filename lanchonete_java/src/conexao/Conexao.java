@@ -4,8 +4,9 @@ import java.sql.*;
 import javax.swing.*;
 
 public class Conexao {
-    final private String driver = "com.mysql.jdbc.Driver";
-    final private String url = "jdbc:mysql://localhost:3306/clientes";
+    final private String driver = "com.mysql.cj.jdbc.Driver";
+
+    final private String url = "jdbc:mysql://localhost:3306/lanchonete";
     final private String usuario = "root";
     final private String senha = "";
 
@@ -18,7 +19,7 @@ public class Conexao {
         try {
             Class.forName(driver);
             conexao = DriverManager.getConnection(url, usuario, senha);
-            statement = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             statement = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (ClassNotFoundException Driver) {
             JOptionPane.showMessageDialog(null, "Driver não localizado: " + Driver);
             result = false;

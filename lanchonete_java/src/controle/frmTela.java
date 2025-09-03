@@ -15,12 +15,17 @@ public class frmTela extends javax.swing.JFrame {
     public frmTela() {
         initComponents();
         con_cliente = new Conexao();
-        con_cliente.conecta(); // abre a conexão com o Banco de Dados
-        con_cliente.executaSQL("select * FROM tbclientes ORDER BY cod"); //busca todos os clientes
-        preencherTabela(); // preenche a Tabela com os dados
-        posicionarRegistro(); //primeiros registros
-        tblClientes.setAutoCreateRowSorter(true);//permite ordenar colunas da tabela
- 
+     
+    if (con_cliente.conecta()) {
+        con_cliente.executaSQL("select * FROM tbclientes ORDER BY cod");
+        preencherTabela();
+        posicionarRegistro();
+        tblClientes.setAutoCreateRowSorter(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Falha na conexão com o banco de dados. Verifique o servidor.");
+        // Você pode adicionar System.exit(0); aqui para fechar a aplicação
+    }
+
     }
 
     /**
@@ -55,6 +60,10 @@ public class frmTela extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txt_pesquisa = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtCpf = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtEndereco = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,17 +79,17 @@ public class frmTela extends javax.swing.JFrame {
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Cógigo", "Nome", "Data de nascimento", "Telefone", "Email"
+                "Cógigo", "Nome", "Data de nascimento", "Telefone", "Email", "endereço", "Cpf"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -170,65 +179,74 @@ public class frmTela extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Cpf");
+
+        jLabel8.setText("enderenço");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(46, 46, 46)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                                    .addComponent(txtCod, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                    .addComponent(txtCod)
                                     .addComponent(txtEmail)
                                     .addComponent(txtNasc)
-                                    .addComponent(txtFone, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnPrimeiroRegistro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnVoltarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAvancarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnUltimoRegistro)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtFone, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                    .addComponent(txtCpf)
+                                    .addComponent(txtEndereco))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(157, 157, 157)
-                                .addComponent(btnNovo)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnGravar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAlterar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnExcluir)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(11, 11, 11)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(285, 285, 285)
+                        .addComponent(btnPrimeiroRegistro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVoltarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAvancarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUltimoRegistro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNovo)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGravar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlterar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExcluir)
+                        .addGap(34, 34, 34))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, txtCod, txtEmail, txtFone, txtNasc, txtNome});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -237,39 +255,47 @@ public class frmTela extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtFone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7)
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(txtFone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel8)
+                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(117, 117, 117)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnUltimoRegistro, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnVoltarRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAvancarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnPrimeiroRegistro))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNovo)
-                        .addComponent(btnGravar)
-                        .addComponent(btnAlterar)
-                        .addComponent(btnExcluir)))
-                .addGap(112, 112, 112)
+                    .addComponent(btnVoltarRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAvancarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPrimeiroRegistro)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnNovo)
+                            .addComponent(btnGravar)
+                            .addComponent(btnAlterar)
+                            .addComponent(btnExcluir))
+                        .addComponent(btnUltimoRegistro)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -277,6 +303,8 @@ public class frmTela extends javax.swing.JFrame {
                     .addComponent(txt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, txtCod, txtEmail, txtFone, txtNasc, txtNome});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -286,18 +314,22 @@ public class frmTela extends javax.swing.JFrame {
         int linha_selecionada = tblClientes.getSelectedRow();
         txtCod.setText(tblClientes.getValueAt(linha_selecionada, 0).toString());
         txtNome.setText(tblClientes.getValueAt(linha_selecionada, 1).toString());
-        txtNasc.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
-        txtFone.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
+        txtFone.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
+        txtNasc.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
         txtEmail.setText(tblClientes.getValueAt(linha_selecionada, 4).toString());
+        txtEndereco.setText(tblClientes.getValueAt(linha_selecionada, 5).toString());
+        txtCpf.setText(tblClientes.getValueAt(linha_selecionada, 6).toString());
     }//GEN-LAST:event_tblClientesKeyPressed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         int linha_selecionada = tblClientes.getSelectedRow();
         txtCod.setText(tblClientes.getValueAt(linha_selecionada, 0).toString());
         txtNome.setText(tblClientes.getValueAt(linha_selecionada, 1).toString());
-        txtNasc.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
-        txtFone.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
+        txtFone.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
+        txtNasc.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
         txtEmail.setText(tblClientes.getValueAt(linha_selecionada, 4).toString());
+        txtEndereco.setText(tblClientes.getValueAt(linha_selecionada, 5).toString());
+        txtCpf.setText(tblClientes.getValueAt(linha_selecionada, 6).toString());
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void btnPrimeiroRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeiroRegistroActionPerformed
@@ -342,62 +374,69 @@ public class frmTela extends javax.swing.JFrame {
         txtNasc.setText("");
         txtFone.setText("");
         txtEmail.setText("");
+        txtEndereco.setText("");
+        txtCpf.setText("");
         txtCod.requestFocus();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
         String nome = txtNome.getText();
-        String data_nasc = txtNasc.getText();
-        String telefone = txtFone.getText();
-        String email = txtEmail.getText();
-
-        try {
-            String insert_sql = "insert into tbclientes (nome, telefone, email, dt_nasc) values ('" + nome + "','" + telefone + "','" + email + "','" + data_nasc + "')";
-            con_cliente.statement.executeUpdate(insert_sql);
-            JOptionPane.showMessageDialog(null, "Gravação realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
-            con_cliente.executaSQL("select * from tbclientes order by cod");
-            con_cliente.resultset.first();
-            preencherTabela();
-            mostrar_Dados();
-
-        } catch (SQLException errosql) {
-            JOptionPane.showMessageDialog(null, "\nErro na gravação:\n" + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
-        }
+    String data_nasc = txtNasc.getText();
+    String telefone = txtFone.getText();
+    String email = txtEmail.getText();
+    String endereco = txtEndereco.getText();
+    String cpf = txtCpf.getText();
+    
+    try {
+        String insert_sql = "insert into tbclientes (nome, telefone, email, dt_nasc, endereco, cpf) values ('" + nome + "','" + telefone + "','" + email + "','" + data_nasc + "','" + endereco + "','" + cpf + "')";
+        con_cliente.statement.executeUpdate(insert_sql);
+        JOptionPane.showMessageDialog(null, "Gravação realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        con_cliente.executaSQL("select * from tbclientes order by cod");
+        con_cliente.resultset.first();
+        preencherTabela();
+        mostrar_Dados();
+    } catch (SQLException errosql) {
+        JOptionPane.showMessageDialog(null, "\nErro na gravação:\n" + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_btnGravarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        String nome = txtNome.getText();
-        String data_nasc = txtNasc.getText();
-        String telefone = txtFone.getText();
-        String email = txtEmail.getText();
-        String sql = "";
-        String msg = "";
-
-        try {
-            if (txtCod.getText().equals("")) {
-                sql = "insert into tbclientes (nome, telefone, email, dt_nasc) values ('"
-                        + nome + "','" + telefone + "','" + email + "','" + data_nasc + "')";
-                msg = "Gravação de um novo registro";
-            } else {
-                sql = "update tbclientes set nome = '" + nome
-                        + "', telefone = '" + telefone
-                        + "', email = '" + email
-                        + "', dt_nasc = '" + data_nasc
-                        + "' where cod = " + txtCod.getText();
-                msg = "Alteração de registro";
-            }
-
-            con_cliente.statement.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, msg + " realizada com sucesso!!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
-
-            con_cliente.executaSQL("select * from tbclientes order by cod");
-            con_cliente.resultset.first();
-            preencherTabela();
-            mostrar_Dados();
-
-        } catch (SQLException errosql) {
-            JOptionPane.showMessageDialog(null, "\nErro na gravação:\n" + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+       String nome = txtNome.getText();
+    String data_nasc = txtNasc.getText();
+    String telefone = txtFone.getText();
+    String email = txtEmail.getText();
+    String endereco = txtEndereco.getText();
+    String cpf = txtCpf.getText();
+    String sql = "";
+    String msg = "";
+    
+    try {
+        if (txtCod.getText().equals("")) {
+            sql = "insert into tbclientes (nome, telefone, email, dt_nasc, endereco, cpf) values ('"
+                    + nome + "','" + telefone + "','" + email + "','" + data_nasc + "','" + endereco + "','" + cpf + "')";
+            msg = "Gravação de um novo registro";
+        } else {
+            sql = "update tbclientes set nome = '" + nome
+                    + "', telefone = '" + telefone
+                    + "', email = '" + email
+                    + "', dt_nasc = '" + data_nasc
+                    + "', endereco = '" + endereco
+                    + "', cpf = '" + cpf
+                    + "' where cod = " + txtCod.getText();
+            msg = "Alteração de registro";
         }
+        
+        con_cliente.statement.executeUpdate(sql);
+        JOptionPane.showMessageDialog(null, msg + " realizada com sucesso!!!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        
+        con_cliente.executaSQL("select * from tbclientes order by cod");
+        con_cliente.resultset.first();
+        preencherTabela();
+        mostrar_Dados();
+        
+    } catch (SQLException errosql) {
+        JOptionPane.showMessageDialog(null, "\nErro na gravação:\n" + errosql, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -439,37 +478,40 @@ public class frmTela extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_pesquisaKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       System.exit(WIDTH);
+        System.exit(WIDTH);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public void preencherTabela() {
-        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(4);
-        tblClientes.getColumnModel().getColumn(1).setPreferredWidth(150);
-        tblClientes.getColumnModel().getColumn(2).setPreferredWidth(11);
-        tblClientes.getColumnModel().getColumn(3).setPreferredWidth(14);
-        tblClientes.getColumnModel().getColumn(4).setPreferredWidth(100);
+       tblClientes.getColumnModel().getColumn(0).setPreferredWidth(4);
+    tblClientes.getColumnModel().getColumn(1).setPreferredWidth(150);
+    tblClientes.getColumnModel().getColumn(2).setPreferredWidth(11); // Data de nascimento
+    tblClientes.getColumnModel().getColumn(3).setPreferredWidth(14); // Telefone
+    tblClientes.getColumnModel().getColumn(4).setPreferredWidth(100); // Email
+    tblClientes.getColumnModel().getColumn(5).setPreferredWidth(100); // Endereço
+    tblClientes.getColumnModel().getColumn(6).setPreferredWidth(100); // Cpf
 
-        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
-        modelo.setNumRows(0);
+    DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+    modelo.setNumRows(0);
 
-        try {
-            con_cliente.resultset.beforeFirst();
-            while (con_cliente.resultset.next()) {
-                modelo.addRow(new Object[]{
-                    con_cliente.resultset.getString("cod"),
-                    con_cliente.resultset.getString("nome"),
-                    con_cliente.resultset.getString("dt_nasc"), // Exemplo de nome de coluna
-                    con_cliente.resultset.getString("telefone"), // Exemplo de nome de coluna
-                    con_cliente.resultset.getString("email")
-                });
-            }
-
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "\n Erro ao listar dados da tabela!! :\n " + erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+    try {
+        con_cliente.resultset.beforeFirst();
+        while (con_cliente.resultset.next()) {
+            modelo.addRow(new Object[]{
+                con_cliente.resultset.getString("cod"),
+                con_cliente.resultset.getString("nome"),
+                con_cliente.resultset.getString("dt_nasc"),
+                con_cliente.resultset.getString("telefone"),
+                con_cliente.resultset.getString("email"),
+                con_cliente.resultset.getString("endereco"),
+                con_cliente.resultset.getString("cpf")
+            });
         }
+    } catch (SQLException erro) {
+        JOptionPane.showMessageDialog(null, "\n Erro ao listar dados da tabela!! :\n " + erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+    }
     }
 
     public void posicionarRegistro() {
@@ -483,14 +525,16 @@ public class frmTela extends javax.swing.JFrame {
 
     public void mostrar_Dados() {
         try {
-            txtCod.setText(con_cliente.resultset.getString("cod")); // Associar a caixa de texto ao campo cod
-            txtNome.setText(con_cliente.resultset.getString("nome")); // Associar a caixa de texto ao campo nome
-            txtNasc.setText(con_cliente.resultset.getString("dt_nasc"));
-            txtFone.setText(con_cliente.resultset.getString("telefone"));
-            txtEmail.setText(con_cliente.resultset.getString("email"));
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "Não localizou dados: " + erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
-        }
+        txtCod.setText(con_cliente.resultset.getString("cod"));
+        txtNome.setText(con_cliente.resultset.getString("nome"));
+        txtNasc.setText(con_cliente.resultset.getString("dt_nasc"));
+        txtFone.setText(con_cliente.resultset.getString("telefone"));
+        txtEmail.setText(con_cliente.resultset.getString("email"));
+        txtEndereco.setText(con_cliente.resultset.getString("endereco"));
+        txtCpf.setText(con_cliente.resultset.getString("cpf"));
+    } catch (SQLException erro) {
+        JOptionPane.showMessageDialog(null, "Não localizou dados: " + erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+    }
     }
 
     public static void main(String args[]) {
@@ -516,8 +560,9 @@ public class frmTela extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frmTela().setVisible(true);
@@ -541,10 +586,14 @@ public class frmTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCod;
+    private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtFone;
     private javax.swing.JTextField txtNasc;
     private javax.swing.JTextField txtNome;
